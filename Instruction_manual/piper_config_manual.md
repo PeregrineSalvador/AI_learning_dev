@@ -118,4 +118,5 @@ https://www.bilibili.com/video/BV1owtfe9EJH/?vd_source=36d67ceba7e90f1135a8f40fe
 ```bash
 ros2 launch piper_with_gripper_moveit demo.launch.py
 ```
-
+### Piper使用注意事项
+> 上电后航空插口如果插不紧，虽然能连上CAN，并且能失能，但是无法控制。要重新插紧
