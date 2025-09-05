@@ -1,7 +1,7 @@
 # 具身智能学习与开发仓库
 
 > First Contributers：
-> **Salvador YaoTian Gentle_Milk_Way ZhuRong**
+> **Salvador YaoTian Gentle_Milk_Way ZhuRong Xu Jinwei Zhou Yang**
 >
 > Waiting for any kinds of contribution.......
 
