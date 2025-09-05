@@ -1,6 +1,7 @@
 # Piper机械臂配置教程
 
 ## 应用体验提升
+
 建议先安装一个**konsole**,用于美化终端，具有分屏灯高级功能，是对shell的部分功能的封装的更好的终端平台
 
 打开shell ，输入：
@@ -119,3 +120,25 @@ https://www.bilibili.com/video/BV1owtfe9EJH/?vd_source=36d67ceba7e90f1135a8f40fe
 ros2 launch piper_with_gripper_moveit demo.launch.py
 ```
 
+## 主从控制
+
+必须严格按照assert中的进行接线
+
+
+
+<img src="https://github.com/agilexrobotics/piper_sdk/blob/master/asserts/wire_connection.PNG?raw=true" alt="wire_connection.PNG" style="zoom:50%;" />
+
+CAN配置那一套是固定的，照常运行
+
+from piper_sdk import *
+
+先给主机械臂上电，然后运行程序
+
+C_PiperInterface(can_name='can0', judge_flag=True).MasterSlaveConfig(0xFA, 0, 0, 0)
+
+然后给主机械臂断电
+
+随后给从机械臂上电
+C_PiperInterface(can_name='can0', judge_flag=True).MasterSlaveConfig(0xFC, 0, 0, 0)
+
+最后把两个机械臂都插上电。就可以进入主从示教
