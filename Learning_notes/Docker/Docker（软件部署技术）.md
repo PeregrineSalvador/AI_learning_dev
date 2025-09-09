@@ -35,6 +35,100 @@ curl -fsSL https://get.docker.com -o install-docker.sh
 sudo sh install-docker.sh
 ```
 
+上述网络安装需要严格的网络环境，如安装失败且询问AI无果，可通过一下方式进行手动安装。
+
+1. 更新系统包列表
+
+安装前，先更新系统的软件包列表，确保获取最新的软件信息。
+
+```bash
+sudo apt-get update
+```
+
+2. 安装必要的依赖包
+
+这些包允许 apt通过 HTTPS 使用仓库，以及处理 CA 证书、curl 等。
+
+```bash
+sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+```
+
+3. 添加 Docker 的官方 GPG 密钥
+
+此密钥用于验证下载软件包的真实性。
+
+```bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+
+4. 添加 Docker 的稳定版仓库
+
+将 Docker 的官方仓库添加到你的系统源列表中。
+
+```bash
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+```
+
+5. 再次更新包列表
+
+添加新仓库后，更新 apt包列表以包含新仓库中的软件包。
+
+```bash
+sudo apt-get update
+```
+
+6. 安装 Docker 引擎
+
+安装 Docker 社区版（CE）、CLI 和 containerd。
+
+```bash
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+```
+
+7. 启动 Docker 服务并设置开机自启
+
+```bash
+sudo systemctl start docker
+sudo systemctl enable docker
+```
+
+8. 将当前用户添加到 docker 组（可选但推荐）
+
+为了避免每次使用 docker命令都要加 sudo，可以将你的用户添加到 docker组。注意：这具有潜在的安全风险，因为它相当于授予了用户 root 权限。 仅在个人或可信环境操作。
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+
+
+执行此命令后，你需要完全注销并重新登录（或**重启终端**），组更改才会生效。
+
+✅ 验证 Docker 安装是否成功
+
+安装完成后，通过以下步骤验证 Docker 是否已正确安装并运行：
+
+```bash
+docker --version
+```
+
+如果安装成功，你会看到类似 Docker version 20.10.17, build 100c701的输出。
+检查 Docker 服务状态：确保 Docker 守护进程正在运行。
+
+```bash
+sudo systemctl status docker
+```
+
+如果服务正常运行，输出中应包含 Active: active (running)。
+
+运行经典的 Hello World 容器：这是最全面的验证方式，它会下载一个测试镜像并运行一个容器。
+
+```bash
+sudo docker run hello-world
+```
+
+如果一切正常，你将在终端看到 "Hello from Docker!" 以及一段说明你的安装看起来工作正常的消息。
+
 #### Windows系统
 
 在任务栏搜索“功能”，点击“启用或关闭Windows功能”，勾选“Virtual Machine Platform”（对应中文为虚拟机平台），勾选“适用于Linux的Windows子系统”（即WSL）
