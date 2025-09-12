@@ -1,0 +1,28 @@
+services:
+  ros2-humble:
+    build: .
+    container_name: piper_ros2
+    image: piper_ros2:0912
+    tty: true
+    stdin_open: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - ROS_LOCALHOST_ONLY=0
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./workspace:/workspace/piper_ws
+      - /dev:/dev:rw
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+      - "/dev/can0:/dev/can0"
+      - "/dev/can1:/dev/can1"
+    network_mode: host
+    privileged: false  # 改为false，使用用户组权限
+    user: "1000:1000"  # 使用非root用户
+    # 添加设备组映射（与Dockerfile中的用户组对应）
+    group_add:
+      - "20"  # dialout组（串口）
+      - "44"  # video组
+      - "46"  # plugdev组
